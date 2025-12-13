@@ -25,6 +25,7 @@ import "./responsive.css";
 import "./components-styles.css";
 import "./product-card-styles.css";
 import "./hero-category-styles.css";
+import "./toast-styles.css";
 
 // App Content Component to use auth context
 const AppContent = () => {

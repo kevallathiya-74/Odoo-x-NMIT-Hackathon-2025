@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../hooks/useToast.jsx";
+import { getUserFriendlyError, successMessages, validationMessages } from "../utils/errorMessages";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,11 +11,11 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { register } = useAuth();
   const navigate = useNavigate();
+  const { showToast, ToastContainer } = useToast();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,16 +23,25 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     // Validation
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+      showToast('warning', 'Please fill in all fields.');
+      return;
+    }
+
+    if (!formData.email.includes('@')) {
+      showToast('warning', validationMessages.email);
       return;
     }
 
     if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
+      showToast('warning', validationMessages.password);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      showToast('warning', validationMessages.passwordMatch);
       return;
     }
 
@@ -39,11 +50,14 @@ const Register = () => {
     try {
       const { confirmPassword, ...registerData } = formData;
       await register(registerData);
-      navigate("/");
+      showToast('success', successMessages.register);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Registration failed. Please try again."
-      );
+      console.error('Registration error:', err);
+      const errorMessage = getUserFriendlyError(err);
+      showToast('error', errorMessage);
     } finally {
       setLoading(false);
     }
@@ -51,14 +65,13 @@ const Register = () => {
 
   return (
     <div className="auth-container">
+      <ToastContainer />
       <div className="auth-card">
         <div className="auth-header">
           <span className="auth-logo">🌿</span>
           <h1>Join EcoFinds</h1>
           <p>Create your account</p>
         </div>
-
-        {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
@@ -69,9 +82,8 @@ const Register = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              required
-              minLength={3}
               placeholder="Choose a username"
+              disabled={loading}
             />
           </div>
 
@@ -83,8 +95,8 @@ const Register = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              required
               placeholder="Enter your email"
+              disabled={loading}
             />
           </div>
 
@@ -96,9 +108,8 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              required
-              minLength={6}
-              placeholder="Create a password"
+              placeholder="Create a password (min 6 characters)"
+              disabled={loading}
             />
           </div>
 
@@ -110,13 +121,13 @@ const Register = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
-              required
               placeholder="Confirm your password"
+              disabled={loading}
             />
           </div>
 
           <button type="submit" className="auth-btn" disabled={loading}>
-            {loading ? "Creating account..." : "Sign Up"}
+            {loading ? "Creating Account..." : "Sign Up"}
           </button>
         </form>
 
