@@ -67,7 +67,7 @@ const Orders = () => {
                     <div className="order-item-details">
                       <h4>{item.title}</h4>
                       <p>Quantity: {item.quantity}</p>
-                      <p className="item-price">${item.price}</p>
+                      <p className="item-price">₹{item.price}</p>
                     </div>
                   </div>
                 ))}
@@ -76,7 +76,7 @@ const Orders = () => {
               <div className="order-footer">
                 <div className="order-total">
                   <strong>Total Amount:</strong>
-                  <span className="total-price">${order.totalAmount.toFixed(2)}</span>
+                  <span className="total-price">₹{order.totalAmount.toFixed(2)}</span>
                 </div>
                 <div className="order-payment">
                   <strong>Payment:</strong> {order.paymentMethod}

@@ -21,6 +21,10 @@ import Orders from "./pages/Orders";
 import Dashboard from "./pages/Dashboard";
 
 import "./App.css";
+import "./responsive.css";
+import "./components-styles.css";
+import "./product-card-styles.css";
+import "./hero-category-styles.css";
 
 // App Content Component to use auth context
 const AppContent = () => {
@@ -50,7 +54,7 @@ const AppContent = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<ProductDetail />} />
-        
+
         <Route
           path="/add-product"
           element={

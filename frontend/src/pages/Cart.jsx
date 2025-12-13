@@ -79,7 +79,7 @@ const Cart = () => {
       {!cart || cart.items.length === 0 ? (
         <div className="empty-cart">
           <p>Your cart is empty</p>
-          <button onClick={() => navigate("/")} className="btn-primary">
+          <button onClick={() => navigate("/")} className="btn btn-primary">
             Continue Shopping
           </button>
         </div>
@@ -96,7 +96,7 @@ const Cart = () => {
                 <div className="cart-item-details">
                   <h3>{item.product?.title}</h3>
                   <p className="item-category">{item.product?.category}</p>
-                  <p className="item-price">${item.product?.price}</p>
+                  <p className="item-price">₹{item.product?.price}</p>
                 </div>
                 <div className="cart-item-actions">
                   <div className="quantity-controls">
@@ -140,7 +140,7 @@ const Cart = () => {
             <h2>Order Summary</h2>
             <div className="summary-row">
               <span>Subtotal:</span>
-              <span>${calculateTotal().toFixed(2)}</span>
+              <span>₹{calculateTotal().toFixed(2)}</span>
             </div>
             <div className="summary-row">
               <span>Shipping:</span>
@@ -148,7 +148,7 @@ const Cart = () => {
             </div>
             <div className="summary-row total">
               <span>Total:</span>
-              <span>${calculateTotal().toFixed(2)}</span>
+              <span>₹{calculateTotal().toFixed(2)}</span>
             </div>
             <button
               onClick={handleCheckout}

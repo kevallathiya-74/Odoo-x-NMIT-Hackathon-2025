@@ -23,11 +23,11 @@ router.get("/", async (req, res) => {
       query.$text = { $search: search };
     }
 
-    // Sorting
-    let sortOption = { createdAt: -1 }; // Default: newest first
-    if (sort === "price-asc") sortOption = { price: 1 };
-    if (sort === "price-desc") sortOption = { price: -1 };
-    if (sort === "popular") sortOption = { views: -1 };
+    // Sorting with _id as tiebreaker for consistent pagination
+    let sortOption = { createdAt: -1, _id: 1 }; // Default: newest first
+    if (sort === "price-asc") sortOption = { price: 1, _id: 1 };
+    if (sort === "price-desc") sortOption = { price: -1, _id: 1 };
+    if (sort === "popular") sortOption = { views: -1, _id: 1 };
 
     const products = await Product.find(query)
       .populate("seller", "username email")

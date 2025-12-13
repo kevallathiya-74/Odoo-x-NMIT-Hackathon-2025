@@ -236,7 +236,7 @@ const Dashboard = () => {
               <button
                 type="button"
                 onClick={() => setEditing(true)}
-                className="btn-primary"
+                className="btn btn-primary"
               >
                 Edit Profile
               </button>
@@ -248,11 +248,11 @@ const Dashboard = () => {
                     setEditing(false);
                     setMessage("");
                   }}
-                  className="btn-secondary"
+                  className="btn btn-secondary"
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn-primary" disabled={loading}>
+                <button type="submit" className="btn btn-primary" disabled={loading}>
                   {loading ? "Saving..." : "Save Changes"}
                 </button>
               </>

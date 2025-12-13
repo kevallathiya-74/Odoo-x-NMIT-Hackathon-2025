@@ -46,21 +46,22 @@ const MyListings = () => {
     <div className="my-listings-container">
       <div className="listings-header">
         <h1>My Listings</h1>
-        <Link to="/add-product" className="btn-primary">
+        <Link to="/add-product" className="btn btn-primary">
           + Add New Product
         </Link>
       </div>
 
       {products.length === 0 ? (
-        <div className="no-listings">
+        <div className="empty-state">
+          <h3>No Listings Yet</h3>
           <p>You haven't listed any products yet.</p>
-          <Link to="/add-product" className="btn-primary">
+          <Link to="/add-product" className="btn btn-primary">
             Create Your First Listing
           </Link>
         </div>
       ) : (
-        <div className="listings-table-container">
-          <table className="listings-table">
+        <div className="listings-table">
+          <table>
             <thead>
               <tr>
                 <th>Image</th>
@@ -75,47 +76,47 @@ const MyListings = () => {
             <tbody>
               {products.map((product) => (
                 <tr key={product._id}>
-                  <td>
+                  <td data-label="Image">
                     <img
                       src={product.images[0]}
                       alt={product.title}
-                      className="listing-thumb"
+                      className="table-image"
                     />
                   </td>
-                  <td>{product.title}</td>
-                  <td>{product.category}</td>
-                  <td>${product.price}</td>
-                  <td>
+                  <td data-label="Title">{product.title}</td>
+                  <td data-label="Category">{product.category}</td>
+                  <td data-label="Price">₹{product.price}</td>
+                  <td data-label="Status">
                     <span className={`status-badge ${product.status}`}>
                       {product.status}
                     </span>
                   </td>
-                  <td>
+                  <td data-label="Views">
                     <FaEye /> {product.views}
                   </td>
-                  <td>
-                    <div className="action-buttons">
+                  <td data-label="Actions">
+                    <div className="table-actions">
                       <Link
                         to={`/product/${product._id}`}
-                        className="btn-icon"
+                        className="btn btn-secondary"
                         title="View"
                       >
-                        <FaEye />
+                        <FaEye /> View
                       </Link>
                       <Link
                         to={`/edit-product/${product._id}`}
-                        className="btn-icon"
+                        className="edit-btn"
                         title="Edit"
                       >
-                        <FaEdit />
+                        <FaEdit /> Edit
                       </Link>
                       <button
                         onClick={() => handleDelete(product._id)}
-                        className="btn-icon delete"
+                        className="delete-btn"
                         disabled={deleting === product._id}
                         title="Delete"
                       >
-                        <FaTrash />
+                        <FaTrash /> {deleting === product._id ? 'Deleting...' : 'Delete'}
                       </button>
                     </div>
                   </td>

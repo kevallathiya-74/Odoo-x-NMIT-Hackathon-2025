@@ -61,6 +61,15 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail-container">
+      <button
+        onClick={() => navigate(-1)}
+        className="back-button"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Back
+      </button>
       <div className="product-detail-card">
         <div className="product-detail-image">
           <img
@@ -84,7 +93,7 @@ const ProductDetail = () => {
           </div>
 
           <div className="product-price-section">
-            <span className="price">${product.price}</span>
+            <span className="price">₹{product.price}</span>
             <span className="condition-badge">{product.condition}</span>
           </div>
 
@@ -116,7 +125,7 @@ const ProductDetail = () => {
             <button
               onClick={handleAddToCart}
               disabled={addingToCart}
-              className="add-to-cart-btn"
+              className="btn btn-primary add-to-cart-btn"
             >
               <FaShoppingCart />
               {addingToCart ? "Adding..." : "Add to Cart"}
@@ -127,7 +136,7 @@ const ProductDetail = () => {
             <div className="owner-actions">
               <button
                 onClick={() => navigate(`/edit-product/${product._id}`)}
-                className="btn-secondary"
+                className="btn btn-secondary"
               >
                 Edit Product
               </button>
