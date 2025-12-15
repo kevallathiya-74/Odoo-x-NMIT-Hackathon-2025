@@ -25,7 +25,7 @@ const seedData = async () => {
 
     // Create sample users
     const hashedPassword = await bcrypt.hash("password123", 10);
-    
+
     const users = await User.insertMany([
       {
         username: "john_doe",
@@ -79,6 +79,9 @@ const seedData = async () => {
         seller: users[0]._id,
         status: "available",
         views: 145,
+        brand: "Apple",
+        avgRating: 4.8,
+        numReviews: 24,
       },
       {
         title: "MacBook Air M1 2020",
@@ -90,6 +93,9 @@ const seedData = async () => {
         seller: users[1]._id,
         status: "available",
         views: 203,
+        brand: "Apple",
+        avgRating: 4.9,
+        numReviews: 15,
       },
       {
         title: "Sony WH-1000XM4 Headphones",
@@ -101,6 +107,9 @@ const seedData = async () => {
         seller: users[2]._id,
         status: "available",
         views: 89,
+        brand: "Sony",
+        avgRating: 4.7,
+        numReviews: 320,
       },
       {
         title: "iPad Pro 11-inch 2021",
@@ -125,6 +134,9 @@ const seedData = async () => {
         seller: users[0]._id,
         status: "available",
         views: 76,
+        brand: "Generic",
+        avgRating: 4.2,
+        numReviews: 8,
       },
       {
         title: "IKEA Leather Sofa",
@@ -160,6 +172,9 @@ const seedData = async () => {
         seller: users[3]._id,
         status: "available",
         views: 201,
+        brand: "Nike",
+        avgRating: 4.6,
+        numReviews: 54,
       },
       {
         title: "Winter Coat - North Face",

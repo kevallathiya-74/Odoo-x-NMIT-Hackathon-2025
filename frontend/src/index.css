@@ -1,57 +1,43 @@
 :root {
-  /* Color Palette - Premium Eco */
-  --primary: #059669;
-  /* Emerald 600 - Deeper, more premium green */
-  --primary-dark: #047857;
-  /* Emerald 700 */
-  --primary-light: #ecfdf5;
-  /* Emerald 50 - Lighter background */
+  /* Color Palette - Eco Theme Refreshed */
+  --primary: #2ECC71;
+  /* Green */
+  --primary-dark: #27ae60;
+  --primary-light: #F4FDF8;
+  /* Light Green background */
 
-  --secondary: #d97706;
-  /* Amber 600 */
-  --secondary-dark: #b45309;
+  --secondary: #1ABC9C;
+  /* Teal */
+  --secondary-dark: #16a085;
 
-  --accent: #4f46e5;
-  /* Indigo 600 */
+  --accent: #2980b9;
+  /* Strong Blue/Teal for CTAs */
 
   /* Neutral Colors */
-  --bg-body: #f8fafc;
-  /* Slate 50 */
+  --bg-body: #F4FDF8;
+  /* Fresh Minty White */
   --bg-card: #ffffff;
-  --bg-input: #f1f5f9;
-  /* Slate 100 */
+  --bg-input: #f8fafc;
+  /* Slate 50 */
 
-  --text-main: #0f172a;
-  /* Slate 900 */
-  --text-muted: #64748b;
-  /* Slate 500 */
-  --text-light: #94a3b8;
-  /* Slate 400 */
+  --text-main: #2C3E50;
+  /* Dark Blue-Grey */
+  --text-muted: #7f8c8d;
+  --text-light: #95a5a6;
 
   /* Borders & Dividers */
   --border: #e2e8f0;
-  /* Slate 200 */
 
-  /* Modern Shadows - Softer & Diffused */
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1),
-    0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-    0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-    0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
-    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 
   /* Typography */
-  --font-heading: 'Outfit',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
-  --font-body: 'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Radii */
   --radius-sm: 0.375rem;
@@ -187,16 +173,15 @@ button {
 .btn-primary {
   background-color: var(--primary);
   color: white;
-  box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2), 0 2px 4px -1px rgba(5, 150, 105, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(46, 204, 113, 0.2);
   font-size: 1rem;
   padding: 0.875rem 2rem;
-  /* Larger padding */
 }
 
 .btn-primary:hover {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3), 0 4px 6px -2px rgba(5, 150, 105, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(46, 204, 113, 0.3);
 }
 
 .auth-btn {
@@ -210,13 +195,13 @@ button {
   font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(46, 204, 113, 0.2);
 }
 
 .auth-btn:hover:not(:disabled) {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
+  box-shadow: 0 10px 15px -3px rgba(46, 204, 113, 0.3);
 }
 
 .auth-btn:disabled {
@@ -254,6 +239,7 @@ button {
   color: var(--primary);
 }
 
+/* Card Styles */
 .card {
   background: var(--bg-card);
   border-radius: var(--radius-xl);
@@ -330,148 +316,134 @@ textarea:focus {
   animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* ===========================
-   RESPONSIVE DESIGN SYSTEM
-   =========================== */
+/* Sidebar & Filter Styles (Merged) */
+.main-content {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem 2rem 1.5rem;
+}
 
-/* Mobile First Base (320px - 767px) */
-@media (max-width: 767px) {
-  :root {
-    font-size: 14px;
-    /* Slightly smaller base for mobile */
-  }
+.sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
 
-  .container {
-    padding: 0 1rem;
-  }
+.filter-section {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--bg-input);
+  padding-bottom: 1.5rem;
+}
 
-  h1 {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-  }
+.filter-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
 
-  h2 {
-    font-size: clamp(1.35rem, 3.5vw, 1.85rem);
-  }
+.filter-section h3 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
 
-  h3 {
-    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-  }
+.filter-select {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-family: var(--font-body);
+  color: var(--text-main);
+}
 
-  .btn {
-    padding: 0.65rem 1.25rem;
-    font-size: 0.9rem;
-  }
+/* Remove box styling for filter-select specific class if desired, or refine it */
+.filter-select {
+  /* Cleaner look */
+  background-color: var(--bg-input);
+  border: 1px solid transparent;
+}
 
-  .btn-primary {
-    padding: 0.75rem 1.5rem;
-  }
+.filter-select:hover {
+  background-color: white;
+  border-color: var(--border);
+}
 
-  /* Stack flex items on mobile */
-  .flex {
-    flex-direction: column;
-  }
+.price-inputs input {
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
 
-  .flex.items-center {
-    align-items: stretch;
-  }
+.category-filter {
+  flex-direction: column;
+}
 
-  .grid {
+.category-buttons {
+  flex-direction: column;
+  display: flex;
+  gap: 0.25rem;
+  border: none;
+  background: transparent;
+}
+
+.category-btn {
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: none;
+  color: var(--text-muted);
+  background: transparent;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.category-btn:hover {
+  background-color: var(--bg-input);
+  color: var(--primary);
+  transform: translateX(4px);
+}
+
+.category-btn.active {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 900px) {
+  .main-content {
     grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-}
-
-/* Tablet (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .container {
-    max-width: 720px;
-    padding: 0 1.25rem;
   }
 
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.25rem;
-  }
-}
-
-/* Desktop (1024px and above) */
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1280px;
-    padding: 0 1.5rem;
+  .sidebar {
+    position: static;
+    margin-bottom: 2rem;
   }
 
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-}
-
-/* Large Desktop (1440px and above) */
-@media (min-width: 1440px) {
-  .container {
-    max-width: 1400px;
-  }
-}
-
-/* Touch Device Optimizations */
-@media (hover: none) and (pointer: coarse) {
-
-  .btn,
-  .nav-link,
-  .category-btn,
-  input,
-  select,
-  textarea {
-    min-height: 44px;
-    /* iOS accessibility guideline */
+  .category-buttons {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
   }
 
-  /* Larger tap targets */
-  .btn-icon {
-    padding: 0.75rem;
-    min-width: 44px;
-    min-height: 44px;
-  }
-}
-
-/* High DPI Screens */
-@media (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-  body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-}
-
-/* Landscape Mobile */
-@media (max-width: 767px) and (orientation: landscape) {
-  .hero {
-    padding: 2rem 1rem;
-  }
-
-  .auth-container {
-    min-height: auto;
-    padding: 1.5rem 1rem;
-  }
-}
-
-/* Print Styles */
-@media print {
-
-  .navbar,
-  .hero,
-  .btn,
-  .mobile-menu-toggle {
-    display: none !important;
-  }
-
-  body {
+  .category-btn {
+    white-space: nowrap;
     background: white;
-    color: black;
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
   }
 
-  .container {
-    max-width: 100%;
+  .category-btn:hover {
+    transform: none;
   }
 }

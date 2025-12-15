@@ -9,13 +9,25 @@ const router = express.Router();
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const { category, search, sort, limit = 50, page = 1 } = req.query;
+    const { category, search, sort, limit = 50, page = 1, minPrice, maxPrice, condition } = req.query;
 
     let query = { status: "available" };
 
     // Category filter
     if (category && category !== "all") {
       query.category = category;
+    }
+
+    // Price Filter
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = minPrice;
+      if (maxPrice) query.price.$lte = maxPrice;
+    }
+
+    // Condition Filter
+    if (condition) {
+      query.condition = condition;
     }
 
     // Search filter
@@ -28,6 +40,7 @@ router.get("/", async (req, res) => {
     if (sort === "price-asc") sortOption = { price: 1, _id: 1 };
     if (sort === "price-desc") sortOption = { price: -1, _id: 1 };
     if (sort === "popular") sortOption = { views: -1, _id: 1 };
+    if (sort === "rating") sortOption = { avgRating: -1, _id: 1 };
 
     const products = await Product.find(query)
       .populate("seller", "username email")

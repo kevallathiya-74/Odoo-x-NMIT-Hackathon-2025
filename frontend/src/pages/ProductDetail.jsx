@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { productService, cartService } from "../services";
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
-import { FaShoppingCart, FaUser, FaTag, FaEye } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaCheckCircle, FaStar } from "react-icons/fa";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -12,7 +12,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState(false);
-  const [message, setMessage] = useState("");
+  const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
     fetchProduct();
@@ -38,10 +38,9 @@ const ProductDetail = () => {
     setAddingToCart(true);
     try {
       await cartService.addToCart(product._id);
-      setMessage("Added to cart successfully!");
-      setTimeout(() => setMessage(""), 3000);
+      // Ideally show a toast here
     } catch (error) {
-      setMessage(error.response?.data?.message || "Failed to add to cart");
+      console.error("Failed to add to cart");
     } finally {
       setAddingToCart(false);
     }
@@ -57,92 +56,129 @@ const ProductDetail = () => {
     );
   }
 
-  const isOwnProduct = user?._id === product.seller._id;
+  const isOwnProduct = user?._id && user._id === product.seller?._id;
 
   return (
     <div className="product-detail-container">
-      <button
-        onClick={() => navigate(-1)}
-        className="back-button"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M19 12H5M12 19l-7-7 7-7" />
-        </svg>
-        Back
-      </button>
-      <div className="product-detail-card">
-        <div className="product-detail-image">
-          <img
-            src={product.images[0] || "https://via.placeholder.com/600x400"}
-            alt={product.title}
-          />
-          <span className={`status-badge ${product.status}`}>
-            {product.status}
-          </span>
+      {/* Breadcrumbs */}
+      <div className="breadcrumbs">
+        <span onClick={() => navigate('/')} className="link">Home</span>
+        <span className="separator">&gt;</span>
+        <span className="link" style={{ textTransform: 'capitalize' }}>{product.category || 'Category'}</span>
+        <span className="separator">&gt;</span>
+        <span className="current">{product.title}</span>
+      </div>
+
+      <div className="product-detail-grid">
+        {/* Left: Product Images */}
+        <div className="product-gallery">
+          <div className="main-image-wrapper">
+            <img
+              src={product.images[activeImage] || "https://via.placeholder.com/600x400"}
+              alt={product.title}
+              className="main-image"
+            />
+          </div>
+          {product.images.length > 1 && (
+            <div className="thumbnail-list">
+              {product.images.map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Thumbnail ${index + 1}`}
+                  className={`thumbnail ${activeImage === index ? "active" : ""}`}
+                  onClick={() => setActiveImage(index)}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className="product-detail-info">
-          <h1>{product.title}</h1>
-          <div className="product-meta">
-            <span className="category">
-              <FaTag /> {product.category}
-            </span>
-            <span className="views">
-              <FaEye /> {product.views} views
-            </span>
+        {/* Right: Product Info */}
+        <div className="product-info-content">
+          <span className="product-brand">{product.brand || product.category}</span>
+          <h1 className="product-title-large">{product.title}</h1>
+
+          <div className="rating-row">
+            <div className="stars">
+              {[...Array(5)].map((_, i) => (
+                <FaStar key={i} size={18} color={i < (product.avgRating || 0) ? "#fbbf24" : "#e5e7eb"} />
+              ))}
+            </div>
+            <span className="review-count">({product.numReviews || 0} reviews)</span>
           </div>
 
-          <div className="product-price-section">
-            <span className="price">₹{product.price}</span>
-            <span className="condition-badge">{product.condition}</span>
+          <div className="price-block">
+            <div>
+              <span className="price-label">Price</span>
+              <span className="current-price">₹{product.price}</span>
+            </div>
+            {product.condition && (
+              <span className={`status-badge ${product.condition.toLowerCase().replace(' ', '-')}`}>
+                {product.condition}
+              </span>
+            )}
           </div>
 
-          <div className="product-description">
+          <div className="description-block">
             <h3>Description</h3>
             <p>{product.description}</p>
           </div>
 
-          <div className="seller-info">
-            <h3>
-              <FaUser /> Seller Information
-            </h3>
-            <p>
-              <strong>Name:</strong> {product.seller.username}
-            </p>
-            <p>
-              <strong>Email:</strong> {product.seller.email}
-            </p>
-            {product.seller.phone && (
-              <p>
-                <strong>Phone:</strong> {product.seller.phone}
-              </p>
+          {/* Action Buttons */}
+          <div className="action-buttons">
+            {!isOwnProduct && product.status === "available" ? (
+              <>
+                <button
+                  onClick={handleAddToCart}
+                  disabled={addingToCart}
+                  className="btn btn-primary btn-lg"
+                >
+                  <FaShoppingCart />
+                  {addingToCart ? "Adding..." : "Add to Cart"}
+                </button>
+                <button className="btn btn-buy-now btn-lg">
+                  Buy Now
+                </button>
+              </>
+            ) : (
+              <div style={{ padding: '1rem', background: 'var(--bg-input)', borderRadius: 'var(--radius-md)', textAlign: 'center', gridColumn: '1 / -1' }}>
+                {isOwnProduct ? "You are selling this item." : "Item Unavailable"}
+                {isOwnProduct && <button onClick={() => navigate(`/edit-product/${product._id}`)} className="btn btn-secondary" style={{ marginLeft: '1rem' }}>Edit Listing</button>}
+              </div>
             )}
           </div>
 
-          {message && <div className="success-message">{message}</div>}
-
-          {!isOwnProduct && product.status === "available" && (
-            <button
-              onClick={handleAddToCart}
-              disabled={addingToCart}
-              className="btn btn-primary add-to-cart-btn"
-            >
-              <FaShoppingCart />
-              {addingToCart ? "Adding..." : "Add to Cart"}
-            </button>
-          )}
-
-          {isOwnProduct && (
-            <div className="owner-actions">
-              <button
-                onClick={() => navigate(`/edit-product/${product._id}`)}
-                className="btn btn-secondary"
-              >
-                Edit Product
-              </button>
+          {/* Seller Card */}
+          <div className="seller-card">
+            <div className="seller-avatar">
+              <FaUser />
             </div>
-          )}
+            <div className="seller-info">
+              <h4>
+                {product.seller?.username || 'EcoFinds Seller'}
+                <FaCheckCircle className="verified-badge" title="Verified Seller" />
+              </h4>
+              <span className="seller-role">Verified Seller</span>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* Mock Reviews Section */}
+      <div className="reviews-section">
+        <div className="reviews-header">
+          <h2>Customer Reviews</h2>
+          <button className="write-review-btn">Write a Review</button>
+        </div>
+
+        {(!product.reviews || product.reviews.length === 0) ? (
+          <div className="review-empty">
+            <p>No reviews yet. Be the first to review this product!</p>
+          </div>
+        ) : (
+          <p>Reviews list would go here...</p>
+        )}
       </div>
     </div>
   );

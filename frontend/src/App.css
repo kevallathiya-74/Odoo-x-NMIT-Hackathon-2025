@@ -59,15 +59,18 @@
 }
 
 .nav-link.signup-btn {
-  background-color: var(--primary);
+  background-color: var(--accent);
   color: white;
   padding: 0.5rem 1.25rem;
   border-radius: var(--radius-full);
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
 }
 
 .nav-link.signup-btn:hover {
-  background-color: var(--primary-dark);
+  background-color: #4338ca;
   color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
 }
 
 .cart-link {
@@ -265,37 +268,65 @@
 
 .hero {
   position: relative;
-  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
-  padding: 4rem 1.5rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  padding: 5rem 1.5rem;
   border-radius: 0 0 50px 50px;
   overflow: hidden;
+  color: white;
+  text-align: center;
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .hero-content {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
   position: relative;
   z-index: 10;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .hero h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 800;
   margin-bottom: 1.5rem;
-  color: var(--text-main);
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.02em;
 }
 
 .hero h1 span {
-  color: var(--primary);
+  color: #fbbf24;
+  /* Amber/Yellow for highlight */
 }
 
 .hero p {
   font-size: 1.25rem;
-  color: var(--text-muted);
-  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2.5rem;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  line-height: 1.6;
 }
 
 /* Search Bar */
@@ -679,7 +710,6 @@
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - 80px);
-  /* Subtract navbar height approx */
   padding: 2rem;
   width: 100%;
   background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
@@ -694,7 +724,6 @@
   max-width: 450px;
   border: 1px solid var(--border);
   margin: 0 auto;
-  /* Ensure centering if flex fails */
 }
 
 .auth-header {
@@ -755,41 +784,6 @@
   font-weight: 700;
   color: var(--primary);
 }
-
-/* Category Filter - Sidebar Style */
-.category-filter {
-  margin-bottom: 2rem;
-  display: flex;
-  flex-direction: column;
-  /* Vertical list */
-  gap: 0.5rem;
-  padding-bottom: 0;
-  overflow: visible;
-}
-
-.category-filter h3 {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  color: var(--text-main);
-  padding-left: 0.5rem;
-}
-
-.category-filter::-webkit-scrollbar {
-  display: none;
-}
-
-.category-buttons {
-  border-radius: var(--radius-full);
-  background: white;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-
-
 
 /* Cart & Checkout Styles */
 .cart-container {
@@ -975,3 +969,25 @@
   color: var(--text-muted);
   margin-bottom: 2rem;
 }
+
+/* Base Layout & Grid Structure */
+.main-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2.5rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  align-items: start;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  padding-bottom: 2rem;
+}
+
+/* Responsive adjustments for layout are handled in responsive.css 
+   but base styles ensure desktop is correct */
